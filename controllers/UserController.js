@@ -6,8 +6,7 @@ const jwt = require("jsonwebtoken");
 //@route Get /api/contacts
 //@acess public
 const getUser = asyncHandler(async (req, res) => {
-  const user = await User.findById();
-  res.status(200).json(user);
+  res.status(200).json(req.user);
 });
 
 //@desc Add a user
