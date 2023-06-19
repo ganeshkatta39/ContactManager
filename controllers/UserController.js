@@ -2,6 +2,16 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+
+//@desc test
+//@route Get /api/contacts/test
+//@acess private
+const test = asyncHandler(async (req, res) => {
+  res
+    .status(200)
+    .json({ message: "this is a test, successfull connection and working" });
+});
+
 //@desc Get all contacts
 //@route Get /api/contacts
 //@acess public
@@ -69,4 +79,4 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addUser, getUser, loginUser };
+module.exports = { addUser, getUser, loginUser, test };
