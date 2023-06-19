@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./config/dbConnection");
 const app = express();
 const dotenv = require("dotenv").config();
-const port = process.env || 3000;
+const port = process.env.port || 3000;
 
 connectDB();
 app.use(express.json());
