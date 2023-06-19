@@ -7,6 +7,7 @@ const port = process.env || 3000;
 connectDB();
 app.use(express.json());
 app.use("/api/contacts", require("./routes/ContactRoutes"));
+app.use("/api/users", require("./routes/UserRoutes"));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

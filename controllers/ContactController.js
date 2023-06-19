@@ -1,17 +1,24 @@
 const asyncHandler = require("express-async-handler");
+const Contact = require("../models/contactModel");
 
 //@desc Get all contacts
 //@route Get /api/contacts
 //@acess public
 const getContacts = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "All contacts" });
+  const contacts = await Contact.find();
+  res.status(200).json(contacts);
 });
 
 //@desc Get a contact
 //@route Get /api/contacts/:id
 //@acess public
 const getContact = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "a contact" });
+  const contact = await Contact.findById(req.params.id);
+  if (!contact) {
+    req.status(404);
+    throw new Error("Contact not found");
+  }
+  res.status(200).json(contact);
 });
 
 //@desc Add a contact
@@ -24,21 +31,46 @@ const addContact = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("all the fields are mandatory");
   }
-  res.status(201).json({ message: "add contact" });
+  const contact = await Contact.create({
+    name,
+    email,
+    phone,
+  });
+
+  res.status(201).json(contact);
 });
 
 //@desc update a contact
 //@route Put /api/contacts/:id
 //@acess public
 const updateContact = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "update contact" });
+  const contact = await Contact.findById(req.params.id);
+  if (!contact) {
+    req.status(404);
+    throw new Error("Contact not found");
+  }
+
+  const updateContact = await Contact.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+    }
+  );
+  res.status(200).json(updateContact);
 });
 
 //@desc Delete a contact
 //@route Delete /api/contacts/:id
 //@acess public
 const deleteContact = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "delete contact" });
+  const contact = await Contact.findById(req.params.id);
+  if (!contact) {
+    req.status(404);
+    throw new Error("Contact not found");
+  }
+  await Contact.remove();
+  res.status(200).json("contact deleted");
 });
 
 module.exports = {
